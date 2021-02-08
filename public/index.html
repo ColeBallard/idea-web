@@ -1,0 +1,61 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <!-- Bootstrap Icons -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.3.0/font/bootstrap-icons.css">
+
+  <!-- Bootstrap 5 -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-giJF6kkoqNQ00vy+HMDP7azOuL0xtbfIcaT9wjKHr8RbDVddVHyTfAAsrekwKmP1" crossorigin="anonymous">
+
+  <!-- Custom CSS -->
+  <link href="style.css" type="text/css" rel="stylesheet">
+
+  <title>Note Taker</title>
+</head>
+<body>
+
+  <div id="notes-sidebar">
+    <div id="current-notes">
+      <h2>Notes</h2>
+      <div class="list-group" id="current-notes-list">
+        <li class="list-group-item list-group-item-action d-flex justify-content-between">
+          <a href="#" class="current-note-title">Cras justo odio Cras justo odio Cras justo odio Cras justo odio </a>
+          <button type="button" class="btn btn-danger"><i class="bi bi-trash"></i></button>
+        </li>
+        <li class="list-group-item list-group-item-action d-flex justify-content-between">
+          <a href="#" class="current-note-title">Cras justo odio Cras justo odio Cras justo odio Cras justo odio </a>
+          <button type="button" class="btn btn-danger"><i class="bi bi-trash"></i></button>
+        </li>
+        <li class="list-group-item list-group-item-action d-flex justify-content-between">
+          <a href="#" class="current-note-title">Cras justo odio Cras justo odio Cras justo odio Cras justo odio </a>
+          <button type="button" class="btn btn-danger"><i class="bi bi-trash"></i></button>
+        </li>
+      </div>
+    </div>
+  </div>
+
+  <div id="center-content">
+    <div id="note-buttons">
+      <button type="button" class="btn btn-primary" id="save-note-btn"><i class="bi bi-save"></i></button>
+      <button type="button" class="btn btn-primary" id="create-note-btn"><i class="bi bi-pencil"></i></button>
+    </div>
+
+    <div id="note-editor">
+      <input type="text" class="form-control" id="note-title" placeholder="title">
+      <textarea class="form-control" id="note-data" placeholder="note" rows="3"></textarea>
+    </div>
+    <div id="current-note"></div>
+  </div>
+  
+
+  <!-- Bootstrap JS -->
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/js/bootstrap.bundle.min.js" integrity="sha384-ygbV9kiqUc6oa4msXn9868pTtWMgiQaeYH7/t7LECLbyPA2x65Kgf80OJFdroafW" crossorigin="anonymous"></script>
+
+  <!-- Custom JS -->
+  <script src="script.js"></script>
+
+</body>
+</html>

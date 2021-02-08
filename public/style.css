@@ -1,0 +1,106 @@
+@import url('https://fonts.googleapis.com/css2?family=Open+Sans:wght@300;400;600;700;800&display=swap');
+
+body {
+  color: white;
+  background-color: #394047;
+  font-family: 'Open Sans', sans-serif;
+}
+
+#notes-sidebar {
+  position: fixed;
+  width: 512px;
+  left: 0;
+  top: 0;
+}
+
+#current-notes h2 {
+  padding: 0.8rem;
+  margin: 0;
+}
+
+#current-notes .list-group-item {
+  font-size: 1.5rem;
+  padding: 0.8rem;
+  background-color: rgba(33, 37, 41, 1);
+  font-weight: 300;
+}
+
+#current-notes .list-group-item:hover {
+  background-color: #212529;
+  transition: 0.5s ease;
+  background: rgba(33, 37, 41, 0.5);
+  right: -24px;
+}
+
+
+.current-note-title {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  margin-right: 8px;
+  color: white;
+  text-decoration: none;
+}
+
+.current-note-title:hover {
+  color: white;
+}
+
+.bi {
+  font-family: sans-serif;
+}
+
+#center-content {
+  margin: 4rem 72px 16px 560px;
+  width: auto;
+}
+
+#note-buttons {
+  position: absolute;
+  top: 0.4rem;
+  right: 72px;
+}
+
+#note-buttons button {
+  font-size: 1.5rem;
+  margin-left: 8px;
+}
+
+#note-data {
+  margin-top: 16px;
+}
+
+#current-note {
+  display: none;
+}
+
+@media only screen and (max-width: 1150px) {
+  #notes-sidebar {
+    width: 440px;
+  }
+
+  #center-content {
+    margin-left: 488px;
+  }
+}
+
+@media only screen and (max-width: 1000px) {
+  #notes-sidebar {
+    width: 368px;
+  }
+
+  #center-content {
+    margin-left: 416px;
+    margin-right: 48px;
+  }
+
+  #note-buttons {
+    right: 48px;
+  }
+}
+
+@media only screen and (max-width: 800px) {
+  #center-content {
+    margin-left: 48px;
+  }
+}

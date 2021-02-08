@@ -1,0 +1,23 @@
+{
+  "scripts": {
+    "start": "node server.js"
+  },
+  "name": "note-taker",
+  "description": "",
+  "version": "1.0.0",
+  "main": "noteData.js",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ColeBallard/note-taker.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/ColeBallard/note-taker/issues"
+  },
+  "homepage": "https://github.com/ColeBallard/note-taker#readme",
+  "dependencies": {
+    "express": "^4.17.1"
+  }
+}
