@@ -23,7 +23,6 @@ module.exports = (app) => {
   });
 
   app.delete('/api/notes/:title', (req, res) => {
-    noteData.splice(req.params.title, 1);
-    // noteData.filter(note => { return note.title !== req.params.title });
+    noteData.splice(noteData.findIndex(note => note.title === req.params.title), 1);
   });
 };

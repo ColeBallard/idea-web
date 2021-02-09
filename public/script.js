@@ -18,6 +18,10 @@ const currentNotesList = document.getElementById('current-notes-list');
 
 const JSON_HEADER = { 'Content-Type': 'application/json' };
 
+const clearInput = () => {
+  $('#note-title, #note-data').val('');
+};
+
 const showErrorMessage = () => {
 
 };
@@ -29,27 +33,28 @@ const renderNoteList = () => {
   })
   .then(response => response.json())
   .then(notes => {
-    currentNotesList.innerHTML = '';
+    $('#current-notes-list').children().each((index, element) => {
+      $(element).find('.current-note-title, .delete-note-btn').off('click');
+    });
+
+    $('#current-notes-list').empty();
 
     if (notes.length < 1)
       return;
-    
-    let temp, listItem;
+  
     for (let note of notes) {
-      temp = document.createElement('div');
-      temp.innerHTML = renderNoteListItem(note);
-      listItem = temp.firstChild;
-      listItem.getElementsByClassName('current-note-title')[0].addEventListener('click', event => {
+      let listItem = $.parseHTML(renderNoteListItem(note));
+    
+      $(listItem).find('.current-note-title').on('click', event => {
         event.preventDefault();
-        console.log(note);
         toggleNoteEdit(false, note);
       });
-      listItem.getElementsByClassName('delete-note-btn')[0].addEventListener('click', event => {
+      $(listItem).find('.delete-note-btn').on('click', event => {
         event.preventDefault();
-        console.log(note);
         deleteNote(note.title);
       });
-      currentNotesList.appendChild(listItem);
+
+      $('#current-notes-list').append(listItem);
     }
   })
   .catch(error => {
@@ -58,6 +63,7 @@ const renderNoteList = () => {
 };
 
 const deleteNote = title => {
+  console.log(title);
   fetch(`/api/notes/${title}`, {
     method: 'DELETE',
     headers: JSON_HEADER
@@ -113,18 +119,18 @@ const renderNoteListItem = note => {
 };
 
 const addNoteListItem = (html, note) => {
-  currentNotesList.innerHTML += html;
-  let listItem = currentNotesList.lastChild;
-  listItem.getElementsByClassName('current-note-title')[0].addEventListener('click', event => {
+  let listItem = $.parseHTML(html);
+    
+  $(listItem).find('.current-note-title').on('click', event => {
     event.preventDefault();
-    console.log(note);
     toggleNoteEdit(false, note);
   });
-  listItem.getElementsByClassName('delete-note-btn')[0].addEventListener('click', event => {
+  $(listItem).find('.delete-note-btn').on('click', event => {
     event.preventDefault();
-    console.log(note);
     deleteNote(note.title);
   });
+
+  $('#current-notes-list').append(listItem);
 };
 
 const renderNote = note => {
@@ -136,28 +142,20 @@ const renderNote = note => {
 };
 
 const toggleNoteEdit = (edit, note) => {
-  const noteEditor = document.getElementById('note-editor');
-  const currentNote = document.getElementById('current-note');
   if (edit) {
-    currentNote.style.display = 'none';
-    noteEditor.style.display = 'block';
+    $('#current-note').hide();
+    $('#note-editor').show();
   }
   else {
-    noteEditor.style.display = 'none';
-    currentNote.style.display = 'block';
-    currentNote.innerHTML = renderNote(note);
+    $('#note-editor').hide();
+    $('#current-note').show();
+    $('#current-note').empty(); 
+    $('#current-note').append($.parseHTML(renderNote(note)));
   }
-};
-
-const createNoteListener = (listItem, note) => {
-};  
-
-const createDeleteListener = (button, note) => {
-  
 };
 
 const validate = title => {
-  if (document.getElementById('note-editor').style.display === 'none')
+  if ($('#note-editor').css('display') === 'none')
     return false;
   
   if (title.length < 1)
@@ -185,6 +183,7 @@ const newNote = async note => {
   if (valid) {
     addNote(note);
     addNoteListItem(renderNoteListItem(note),note);
+    clearInput();
   }
   else 
     showErrorMessage();
@@ -196,17 +195,17 @@ if (window.location.pathname === '/') {
 
   renderNoteList();
 
-  document.getElementById('create-note-btn').addEventListener('click', event => {
+  $('#create-note-btn').on('click', event => {
     event.preventDefault();
     toggleNoteEdit(true, null);
   });
 
-  document.getElementById('save-note-btn').addEventListener('click', event => {
+  $('#save-note-btn').on('click', event => {
     event.preventDefault();
 
     newNote({
-      title: document.getElementById('note-title').value.trim(),
-      note: document.getElementById('note-data').value.trim()
+      title: $('#note-title').val().trim(),
+      note: $('#note-data').val().trim()
     });
   });
 }
