@@ -1,5 +1,10 @@
-const noteData = require('./noteData');
+const notes = require('./notes.json');
 const path = require('path');
+const fs = require('fs');
+
+const setJSON = data => {
+  fs.writeFileSync('notes.json', JSON.stringify(data));
+};
 
 module.exports = (app) => {
 
@@ -7,10 +12,10 @@ module.exports = (app) => {
     res.sendFile(path.join(__dirname, 'public/index.html'));
   });
 
-  app.get('/api/notes', (req, res) => res.json(noteData));
+  app.get('/api/notes', (req, res) => res.json(notes));
 
   app.get('/api/notes/:title', (req, res) => {
-    const note = noteData.find(note => note.title === req.params.title);
+    const note = notes.find(note => note.title === req.params.title);
 
     if (!note) 
       return res.json(false);
@@ -19,10 +24,12 @@ module.exports = (app) => {
   });
 
   app.post('/api/notes', (req, res) => {
-    noteData.push(req.body);
+    notes.push(req.body);
+    setJSON(notes);
   });
 
   app.delete('/api/notes/:title', (req, res) => {
-    noteData.splice(noteData.findIndex(note => note.title === req.params.title), 1);
+    notes.splice(notes.findIndex(note => note.title === req.params.title), 1);
+    setJSON(notes);
   });
 };

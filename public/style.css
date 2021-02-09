@@ -55,6 +55,18 @@ body {
   width: auto;
 }
 
+.toast {
+  position: absolute;
+  z-index: 1;
+  width: 200px;
+  top: 16px;
+  left: 50%;
+  -webkit-transform: translateX(-50%);
+  transform: translateX(-50%);
+  height: auto;
+  max-width: none;
+}
+
 #note-buttons {
   position: absolute;
   top: 0.4rem;
@@ -102,6 +114,11 @@ body {
 @media only screen and (max-width: 800px) {
   #center-content {
     margin-left: 48px;
+  }
+
+  #current-notes .list-group-item:hover {
+    transition: none;
+    right: 0;
   }
 }
 
