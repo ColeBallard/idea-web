@@ -18,32 +18,55 @@ const currentNotesList = document.getElementById('current-notes-list');
 
 const JSON_HEADER = { 'Content-Type': 'application/json' };
 
-const getNotes = () => {
+const showErrorMessage = () => {
+
+};
+
+const renderNoteList = () => {
   fetch('/api/notes', {
     method: 'GET',
-    headers: JSON_HEADER,
+    headers: JSON_HEADER
   })
-  .then((response) => response.json())
-  .then((noteData) => {
-    return noteData;
+  .then(response => response.json())
+  .then(notes => {
+    currentNotesList.innerHTML = '';
+
+    if (notes.length < 1)
+      return;
+    
+    let temp, listItem;
+    for (let note of notes) {
+      temp = document.createElement('div');
+      temp.innerHTML = renderNoteListItem(note);
+      listItem = temp.firstChild;
+      listItem.getElementsByClassName('current-note-title')[0].addEventListener('click', event => {
+        event.preventDefault();
+        console.log(note);
+        toggleNoteEdit(false, note);
+      });
+      listItem.getElementsByClassName('delete-note-btn')[0].addEventListener('click', event => {
+        event.preventDefault();
+        console.log(note);
+        deleteNote(note.title);
+      });
+      currentNotesList.appendChild(listItem);
+    }
   })
-  .catch((error) => {
+  .catch(error => {
     console.error('Error:', error);
   });
 };
 
 const deleteNote = title => {
-  fetch(`/api/notes/delete/${title}`, {
+  fetch(`/api/notes/${title}`, {
     method: 'DELETE',
-    headers: JSON_HEADER,
-  })
-  .then((response) => response.json())
-  .then((noteData) => {
-    return noteData;
+    headers: JSON_HEADER
   })
   .catch((error) => {
     console.error('Error:', error);
   });
+  
+  renderNoteList();
 };
 
 const addNote = note => {
@@ -51,20 +74,6 @@ const addNote = note => {
     method: 'POST',
     headers: JSON_HEADER,
     body: JSON.stringify(note),
-  })
-  .then((response) => response.json())
-  .then((noteData) => {
-    return noteData;
-  })
-  .catch((error) => {
-    console.error('Error:', error);
-  });
-};
-
-const getNote = note => {
-  fetch(`/api/notes/${note.title}`, {
-    method: 'GET',
-    headers: JSON_HEADER,
   })
   .then((response) => response.json())
   .then((noteData) => {
@@ -98,43 +107,32 @@ const replacePlaceholder = (template, placeholder, value) => {
 };
 
 const renderNoteListItem = note => {
-  let template = fs.readFileSync("templates/noteListItem.html", "utf8");
+  let template = TEMPLATES.noteListItem;
   template = replacePlaceholder(template, "title", note.title);
   return template;
 };
 
 const addNoteListItem = (html, note) => {
-  // let temp = document.createElement('div');
-  // temp.innerHTML = html;
-  // currentNotesList.appendChild(temp.firstChild);
   currentNotesList.innerHTML += html;
   let listItem = currentNotesList.lastChild;
-  createNoteListener(listItem, note);
-  createDeleteListener(listItem.getElementsByClassName('delete-note-btn')[0], note);
+  listItem.getElementsByClassName('current-note-title')[0].addEventListener('click', event => {
+    event.preventDefault();
+    console.log(note);
+    toggleNoteEdit(false, note);
+  });
+  listItem.getElementsByClassName('delete-note-btn')[0].addEventListener('click', event => {
+    event.preventDefault();
+    console.log(note);
+    deleteNote(note.title);
+  });
 };
 
 const renderNote = note => {
-  let template = fs.readFileSync("templates/note.html", "utf8");
+  let template = TEMPLATES.note;
   template = replacePlaceholder(template, "title", note.title);
   template = replacePlaceholder(template, "note", note.note);
  
   return template;
-};
-
-const renderNoteList = notes => {
-  // const template = fs.readFileSync('index.html', "utf8");
-  if (notes.length < 1)
-    return;
-
-  let temp, listItem;
-  for (let note of notes) {
-    temp = document.createElement('div');
-    temp.innerHTML = renderNoteListItem(note);
-    listItem = temp.firstChild;
-    createNoteListener(listItem, note);
-    createDeleteListener(listItem.getElementsByClassName('delete-note-btn')[0], note);
-    currentNotesList.appendChild(listItem);
-  }
 };
 
 const toggleNoteEdit = (edit, note) => {
@@ -152,42 +150,51 @@ const toggleNoteEdit = (edit, note) => {
 };
 
 const createNoteListener = (listItem, note) => {
-  listItem.getElementsByClassName('current-note-title')[0].addEventListener('click', event => {
-    event.preventDefault();
-
-    toggleNoteEdit(false, note);
-  });
-};
+};  
 
 const createDeleteListener = (button, note) => {
-  button.addEventListener('click', event => {
-    event.preventDefault();
-
-    deleteNote(note.title);
-  });
+  
 };
 
-
-
 const validate = title => {
-  // Check if editor is being displayed
   if (document.getElementById('note-editor').style.display === 'none')
     return false;
   
   if (title.length < 1)
     return false;
 
-  if (!getNote(title))
-    return false;
-
-  return true;
+  return fetch(`/api/notes/${title}`, {
+    method: 'GET',
+    headers: JSON_HEADER,
+  })
+  .then((response) => response.json())
+  .then(data => {
+    if (!data)
+      return true;
+    else 
+      return false;
+  })
+  .catch((error) => {
+    console.error('Error:', error);
+  });
 };
 
-if (window.location.pathname === '/notes') {
+const newNote = async note => {
+  const valid = await validate(note.title);
+
+  if (valid) {
+    addNote(note);
+    addNoteListItem(renderNoteListItem(note),note);
+  }
+  else 
+    showErrorMessage();
+};
+
+if (window.location.pathname === '/') {
   mediaQueryChange(stackContent);
   stackContent.addListener(mediaQueryChange);
 
-  renderNoteList(getNotes());
+  renderNoteList();
 
   document.getElementById('create-note-btn').addEventListener('click', event => {
     event.preventDefault();
@@ -197,16 +204,9 @@ if (window.location.pathname === '/notes') {
   document.getElementById('save-note-btn').addEventListener('click', event => {
     event.preventDefault();
 
-    let note = {
+    newNote({
       title: document.getElementById('note-title').value.trim(),
       note: document.getElementById('note-data').value.trim()
-    };
-
-    if (validate(note.title)) {
-      addNote(note);
-      addNoteListItem(renderNoteListItem(note),note);
-    }
-    else 
-      showErrorMessage();
+    });
   });
 }

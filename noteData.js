@@ -1,4 +1,4 @@
-const noteArray = [
+const noteData = [
   {
     title: 'title',
     note: 'note'
@@ -6,4 +6,4 @@ const noteArray = [
 ];
 
 
-module.exports = noteArray;
+module.exports = noteData;

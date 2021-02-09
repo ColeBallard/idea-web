@@ -104,3 +104,23 @@ body {
     margin-left: 48px;
   }
 }
+
+@media only screen and (max-width: 500px) {
+  #center-content {
+    margin-left: 24px;
+    margin-right: 24px;
+  }
+
+  #note-buttons {
+    right: 24px;
+  }
+
+  .current-note-title {
+    font-size: 1.1rem;
+    white-space: normal;
+  }
+
+  #current-notes .list-group-item .btn-danger {
+    padding: 1px 6px;
+  }
+}
