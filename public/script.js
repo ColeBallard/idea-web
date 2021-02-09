@@ -56,9 +56,7 @@ const validate = title => {
     else 
       return -700;
   })
-  .catch((error) => {
-    console.error('Error:', error);
-  });
+  .catch(error => console.error('Error:', error));
 };
 
 const clearInput = () => {
@@ -91,7 +89,7 @@ const showErrorMessage = flag => {
       $('.toast-body').text('Invalid title.');
       break;
     case -700:
-      $('.toast-body').text('A note already exists with the same title.');
+      $('.toast-body').text('A note already exists with that title.');
       break;
     default:
       console.log('error message error');
@@ -108,9 +106,7 @@ const deleteNote = title => {
     method: 'DELETE',
     headers: JSON_HEADER
   })
-  .catch((error) => {
-    console.error('Error:', error);
-  });
+  .catch(error => console.error('Error:', error));
 
   if ($('#current-note').find('h3').text() === title)
     toggleNoteEdit(true, null);
@@ -126,6 +122,7 @@ const addNoteListItem = (html, note) => {
   $(listItem).find('.delete-note-btn').on('click', event => {
     event.preventDefault();
     deleteNote(note.title);
+    renderNoteList();
   });
 
   $('#current-notes-list').append(listItem);
@@ -137,9 +134,7 @@ const addNote = note => {
     headers: JSON_HEADER,
     body: JSON.stringify(note),
   })
-  .catch((error) => {
-    console.error('Error:', error);
-  });
+  .catch(error => console.error('Error:', error));
 };
 
 const newNote = async note => {
@@ -155,6 +150,7 @@ const newNote = async note => {
 };
 
 const renderNoteList = () => {
+  console.log('here');
   fetch('/api/notes', {
     method: 'GET',
     headers: JSON_HEADER

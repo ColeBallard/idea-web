@@ -17,10 +17,8 @@ module.exports = (app) => {
   app.get('/api/notes/:title', (req, res) => {
     const note = notes.find(note => note.title === req.params.title);
 
-    if (!note) 
-      return res.json(false);
-    else
-      return res.json(note);
+    if (!note) return res.json(false);
+    else return res.json(note);
   });
 
   app.post('/api/notes', (req, res) => {
