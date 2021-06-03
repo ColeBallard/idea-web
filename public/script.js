@@ -5,11 +5,14 @@ const renderWeb = () => {
     method: 'GET',
     headers: JSON_HEADER
   })
-  .then(response => response.json())
+  .then(res => res.json())
   .then(rows => {
-    console.log(rows);
+    const webContainer = $('#web-container');
+    for (let bubble of rows) {
+      webContainer.append(new Bubble(bubble.ID, bubble.Title, bubble.Body, bubble.Parent).renderHTML());
+    }
   })
-  .catch(error => console.error('Error:', error));
+  .catch(err => console.error('Error:', err));
 };
 
 if (window.location.pathname === '/') {
