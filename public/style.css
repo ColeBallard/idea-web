@@ -6,6 +6,8 @@ body {
 
 #title {
   margin-top: 8px;
+  background-color: white;
+  z-index: 69;
 }
 
 #parent-plus:link {
@@ -14,6 +16,11 @@ body {
 
 #parent-plus:hover {
   color: grey;
+}
+
+#web-container {
+  cursor: grab;
+  overflow: auto;
 }
 
 .bubble {

@@ -7,6 +7,9 @@ class Bubble {
   }
 
   renderHTML() {
-    return `<div class="bubble text-center"><b>${this.title}</b>  <br /> ${this.body}</div>`;
+    if (!this.title)
+      return `<div class="bubble text-center">${this.body}</div>`;
+    else
+      return `<div class="bubble text-center"><b>${this.title}</b>  <br /> ${this.body}</div>`;
   }
 }
