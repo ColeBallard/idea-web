@@ -11,5 +11,5 @@ app.use(express.static(__dirname + '/public'));
 require('./routes')(app);
 
 app.listen(PORT, () => {
-  console.log(`App listening on PORT: ${PORT}`);
+  console.log(`App listening on http://localhost:${PORT}/.`);
 });
