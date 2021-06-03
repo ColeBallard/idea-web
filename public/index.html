@@ -17,9 +17,22 @@
 </head>
 <body>
 
-  <h2 class="text-center position-relative" id="title">ide<a href="javascript:void(0)" id="parent-plus"><span class="bi bi-plus-square"></span></a> web</h2>
+  <h2 id="title">ide<a href="javascript:void(0)" id="parent-plus"><span class="bi bi-plus-square"></span></a> web</h2>
 
-  <div class="container" id="web-container">
+  <!-- Modal -->
+  <div class="modal fade" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-body">
+          <input type="text" class="form-control" id="input-title" placeholder="Title">
+          <textarea class="form-control mt-3" id="input-body" placeholder="Body"></textarea>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+          <button type="button" class="btn btn-primary" id="submit-parent-btn">Submit</button>
+        </div>
+      </div>
+    </div>
   </div>
   
   <!-- jQuery -->
