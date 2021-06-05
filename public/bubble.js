@@ -1,9 +1,10 @@
 class Bubble {
-  constructor(id, title, body, parent) {
+  constructor(id, title, body, parent, size) {
     this.id = id;
     this.title = title;
     this.body = body;
     this.parent = parent;
+    this.size = size
   }
 
   renderHTML() {
