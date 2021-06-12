@@ -13,7 +13,6 @@ const calculateXY = (bubble, i) => {
 };
 
 const renderBubble = (bubble, coord) => {
-  console.log(coord)
   return `<div class='bubble' style='left:${coord[0]}px; top:${coord[1]}px'>
   <div class='bubble-title'>${bubble.title}</div>
   <div class= bubble-body'>${bubble.body}</div>
@@ -36,7 +35,7 @@ const renderWeb = () => {
     for (let row of rows) {
       if (!row.Parent) 
         i++;
-      console.log('here')
+        
       const b = new Bubble(row.ID, row.Title, row.Body, row.Parent, row.Children, row.Depth);
 
       webContainer.append(renderBubble(b, calculateXY(b, i)));
