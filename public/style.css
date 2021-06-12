@@ -21,6 +21,8 @@ body {
   color: grey;
 }
 
-#canvas {
-  margin-top: 28px;
+#web-container {
+  position: relative;
+  width: fit-content;
+  height: fit-content;
 }
