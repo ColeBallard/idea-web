@@ -23,4 +23,4 @@ npm init -y
 
 3. Make a pull request.
 
-## **[Contact](https://coleb.io/contact)**
+## **[Contact](https://github.com/ColeBallard/coleballard.github.io/blob/main/README.md)**
